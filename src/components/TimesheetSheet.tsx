@@ -209,9 +209,9 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
 
         {/* Form nhập ca */}
         <form onSubmit={handleCreateSubmit} className="mt-4 space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7">
             {/* Ngày làm */}
-            <div>
+            <div className="col-span-2 sm:col-span-1">
               <label className="block text-xs font-semibold text-slate-700 mb-1 flex items-center gap-1">
                 <Calendar className="h-3.5 w-3.5 text-slate-400" />
                 Ngày làm
@@ -303,7 +303,7 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
             </div>
 
             {/* Ghi chú ca */}
-            <div>
+            <div className="col-span-2 sm:col-span-2 md:col-span-2 lg:col-span-1">
               <label className="block text-xs font-semibold text-slate-700 mb-1">Ghi chú</label>
               <input
                 type="text"
@@ -344,13 +344,16 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
       <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
         {/* Thanh công cụ tìm kiếm và thống kê nhanh */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200 p-4 bg-slate-50/70">
-          <div className="flex items-center gap-3">
-            <h3 className="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+          <div className="flex min-w-0 items-center gap-3">
+            <h3 className="flex min-w-0 items-center gap-2 text-sm font-bold text-slate-900 sm:text-base">
               <span>Nhật Ký Chấm Công</span>
               <span className="rounded-full bg-slate-200 px-2 py-0.5 text-xs font-semibold text-slate-700">
                 {filteredEntries.length} ca
               </span>
             </h3>
+            <span className="ml-auto shrink-0 text-xs font-extrabold text-emerald-700 sm:text-sm">
+              {formatVND(totalFilteredPay)}
+            </span>
           </div>
 
           <div className="flex w-full items-center gap-2 sm:w-auto">
@@ -377,8 +380,211 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
           </div>
         </div>
 
-        {/* Bảng dữ liệu chấm công */}
-        <div className="overflow-x-auto">
+        <div className="divide-y divide-slate-100 md:hidden">
+          {filteredEntries.length === 0 ? (
+            <p className="px-4 py-10 text-center text-sm text-slate-400">
+              Chưa có ca làm việc nào phù hợp trong tháng này. Hãy bấm &quot;Ghi nhận ca làm&quot; ở trên!
+            </p>
+          ) : (
+            filteredEntries.map((entry) => {
+              const isEditing = editingId === entry.id;
+              const dayOfWeek = getDayOfWeekShort(entry.date);
+              const isWeekend = dayOfWeek === 'CN' || dayOfWeek === 'T7';
+
+              return (
+                <article key={entry.id} className="p-3.5">
+                  {isEditing ? (
+                    <div className="-m-3.5 space-y-3 bg-emerald-50/70 p-3.5">
+                      <div className="grid grid-cols-2 gap-2">
+                        <label className="min-w-0">
+                          <span className="sr-only">Ngày làm</span>
+                          <input
+                            aria-label="Ngày làm"
+                            type="date"
+                            value={editForm.date || ''}
+                            onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
+                            className="min-h-10 w-full min-w-0 rounded-lg border border-slate-300 bg-white px-2 text-xs"
+                          />
+                        </label>
+                        <label className="min-w-0">
+                          <span className="sr-only">Lương mỗi giờ</span>
+                          <input
+                            aria-label="Lương mỗi giờ"
+                            type="number"
+                            inputMode="numeric"
+                            value={editForm.hourlyRate ?? ''}
+                            onChange={(e) =>
+                              setEditForm({ ...editForm, hourlyRate: parseInt(e.target.value, 10) || 0 })
+                            }
+                            className="min-h-10 w-full min-w-0 rounded-lg border border-slate-300 bg-white px-2 text-xs"
+                          />
+                        </label>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        <label className="min-w-0">
+                          <span className="sr-only">Giờ vào</span>
+                          <input
+                            aria-label="Giờ vào"
+                            type="time"
+                            value={editForm.timeIn || ''}
+                            onChange={(e) => setEditForm({ ...editForm, timeIn: e.target.value })}
+                            className="min-h-10 w-full min-w-0 rounded-lg border border-slate-300 bg-white px-1.5 text-xs"
+                          />
+                        </label>
+                        <label className="min-w-0">
+                          <span className="sr-only">Giờ ra</span>
+                          <input
+                            aria-label="Giờ ra"
+                            type="time"
+                            value={editForm.timeOut || ''}
+                            onChange={(e) => setEditForm({ ...editForm, timeOut: e.target.value })}
+                            className="min-h-10 w-full min-w-0 rounded-lg border border-slate-300 bg-white px-1.5 text-xs"
+                          />
+                        </label>
+                        <label className="min-w-0">
+                          <span className="sr-only">Thời gian nghỉ</span>
+                          <input
+                            aria-label="Thời gian nghỉ"
+                            type="text"
+                            value={editForm.breakRaw || ''}
+                            onChange={(e) => setEditForm({ ...editForm, breakRaw: e.target.value })}
+                            className="min-h-10 w-full min-w-0 rounded-lg border border-slate-300 bg-white px-2 text-xs"
+                          />
+                        </label>
+                      </div>
+                      <label className="block">
+                        <span className="sr-only">Thưởng / phụ cấp</span>
+                        <input
+                          aria-label="Thưởng / phụ cấp"
+                          type="number"
+                          inputMode="numeric"
+                          placeholder="Thưởng / phụ cấp"
+                          value={editForm.bonus ?? ''}
+                          onChange={(e) =>
+                            setEditForm({ ...editForm, bonus: parseInt(e.target.value, 10) || 0 })
+                          }
+                          className="min-h-10 w-full rounded-lg border border-slate-300 bg-white px-2 text-xs"
+                        />
+                      </label>
+                      <label className="block">
+                        <span className="sr-only">Ghi chú</span>
+                        <input
+                          aria-label="Ghi chú"
+                          type="text"
+                          placeholder="Ghi chú"
+                          value={editForm.note || ''}
+                          onChange={(e) => setEditForm({ ...editForm, note: e.target.value })}
+                          className="min-h-10 w-full rounded-lg border border-slate-300 bg-white px-2 text-xs"
+                        />
+                      </label>
+                      <div className="flex justify-end gap-2 pt-1">
+                        <button
+                          type="button"
+                          onClick={cancelEdit}
+                          className="min-h-10 rounded-lg px-3 text-xs font-semibold text-slate-500"
+                        >
+                          Hủy
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => saveEdit(entry.id)}
+                          className="min-h-10 rounded-lg bg-emerald-600 px-4 text-xs font-bold text-white"
+                        >
+                          Lưu
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`inline-flex min-w-7 items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                                isWeekend ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-slate-700'
+                              }`}
+                            >
+                              {dayOfWeek}
+                            </span>
+                            <span className="font-bold text-slate-900">{formatDayMonth(entry.date)}</span>
+                          </div>
+                          {entry.note && (
+                            <p className="mt-2 break-words text-xs italic text-slate-500">{entry.note}</p>
+                          )}
+                        </div>
+                        <div className="shrink-0 text-right">
+                          <p className="text-base font-extrabold text-emerald-700">{formatVND(entry.totalPay)}</p>
+                          <p className="text-[11px] text-slate-500">
+                            {formatHours(entry.workHours)} ({formatVND(entry.hourlyRate)}/h)
+                          </p>
+                        </div>
+                      </div>
+                      <div className="mt-3 flex items-center justify-between gap-2">
+                        <div className="flex min-w-0 flex-wrap items-center gap-1.5 text-xs">
+                          <span className="font-medium text-slate-700">
+                            {entry.timeIn && entry.timeOut ? `${entry.timeIn} - ${entry.timeOut}` : 'Thủ công'}
+                          </span>
+                          {entry.breakHours > 0 && (
+                            <span className="rounded-md bg-slate-100 px-2 py-1 text-[11px] text-slate-600">
+                              Nghỉ {entry.breakRaw}
+                            </span>
+                          )}
+                          {entry.bonus > 0 && (
+                            <span className="text-[11px] font-semibold text-emerald-600">
+                              +{formatVND(entry.bonus)}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex shrink-0 items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => onDuplicateEntry(entry)}
+                            aria-label="Sao chép ca làm"
+                            className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600"
+                          >
+                            <Copy className="h-4 w-4" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => startEdit(entry)}
+                            aria-label="Sửa ca làm"
+                            className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600"
+                          >
+                            <Edit2 className="h-4 w-4" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (window.confirm('Bạn có chắc muốn xóa ca làm này không?')) {
+                                onDeleteEntry(entry.id);
+                              }
+                            }}
+                            aria-label="Xóa ca làm"
+                            className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 text-rose-600"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </article>
+              );
+            })
+          )}
+        </div>
+
+        {filteredEntries.length > 0 && (
+          <div className="flex items-center justify-between gap-3 border-t border-slate-200 bg-slate-50 px-4 py-3 text-xs font-bold md:hidden">
+            <span className="text-slate-600">Tổng cộng ({filteredEntries.length} ca):</span>
+            <span className="shrink-0 text-right text-emerald-700">
+              {formatVND(totalFilteredPay)} <span className="font-medium text-slate-500">({formatHours(totalFilteredHours)})</span>
+            </span>
+          </div>
+        )}
+
+        {/* Bảng dữ liệu chấm công trên màn hình lớn */}
+        <div className="hidden overflow-x-auto md:block">
           <table className="w-full text-left text-xs">
             <thead className="border-b border-slate-200 bg-slate-100/70 text-[11px] font-bold text-slate-600 uppercase tracking-wider">
               <tr>

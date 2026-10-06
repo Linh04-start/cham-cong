@@ -7,6 +7,7 @@ import {
   FileText,
   Wallet,
   LayoutDashboard,
+  PiggyBank,
   Settings as SettingsIcon,
   Download,
   LogOut,
@@ -45,7 +46,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAuth,
 }) => {
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-xs">
+    <>
+      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md shadow-xs">
       <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center gap-2 py-2 lg:h-16 lg:flex-nowrap lg:justify-between lg:gap-4 lg:py-0">
           {/* Logo & Personal Workspace Badge */}
@@ -62,7 +64,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Tab Navigation */}
-          <nav className="order-3 flex w-full items-center justify-center gap-1 rounded-xl bg-slate-100 p-1 lg:order-none lg:w-auto lg:flex-none">
+          <nav className="hidden items-center gap-1 rounded-xl bg-slate-100 p-1 lg:flex">
             <button
               onClick={() => setActiveTab('timesheet')}
               className={`flex min-h-10 items-center gap-1.5 rounded-lg px-2 sm:px-3 py-1.5 text-xs font-bold transition-all ${
@@ -170,7 +172,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onOpenSettings}
               title="Cài đặt mức lương & mục tiêu cá nhân"
-              className="flex min-h-10 min-w-10 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800"
+              className="hidden min-h-10 min-w-10 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 lg:flex"
             >
               <SettingsIcon className="h-4 w-4" />
             </button>
@@ -194,7 +196,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   onClick={onLogout}
                   title="Đăng xuất khỏi tài khoản"
-                  className="flex min-h-10 min-w-10 items-center justify-center rounded-lg text-rose-500 transition-colors hover:bg-rose-50 hover:text-rose-700"
+                  className="hidden min-h-10 min-w-10 items-center justify-center rounded-lg text-rose-500 transition-colors hover:bg-rose-50 hover:text-rose-700 lg:flex"
                 >
                   <LogOut className="h-4 w-4" />
                 </button>
@@ -210,7 +212,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </div>
 
-          <div className="relative order-4 w-full lg:hidden">
+          <div className="relative w-full lg:hidden">
             <Calendar className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-400" />
             <select
               value={selectedMonth}
@@ -232,6 +234,64 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
       </div>
-    </header>
+
+      </header>
+      <nav
+        aria-label="Điều hướng chính trên điện thoại"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_16px_rgba(15,23,42,0.06)] backdrop-blur-md lg:hidden"
+      >
+        <div className="mx-auto flex max-w-lg items-stretch justify-around px-1">
+          <button
+            type="button"
+            onClick={() => setActiveTab('timesheet')}
+            aria-current={activeTab === 'timesheet' ? 'page' : undefined}
+            className={`flex min-h-16 min-w-0 flex-1 flex-col items-center justify-center gap-1 px-1 text-[10px] font-semibold ${
+              activeTab === 'timesheet' ? 'text-emerald-700' : 'text-slate-500'
+            }`}
+          >
+            <Clock className="h-5 w-5 shrink-0" />
+            <span className="truncate">Chấm công</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('expenses')}
+            aria-current={activeTab === 'expenses' ? 'page' : undefined}
+            className={`flex min-h-16 min-w-0 flex-1 flex-col items-center justify-center gap-1 px-1 text-[10px] font-semibold ${
+              activeTab === 'expenses' ? 'text-amber-600' : 'text-slate-500'
+            }`}
+          >
+            <Wallet className="h-5 w-5 shrink-0" />
+            <span className="truncate">Chi tiêu</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('dashboard')}
+            aria-current={activeTab === 'dashboard' ? 'page' : undefined}
+            className={`flex min-h-16 min-w-0 flex-1 flex-col items-center justify-center gap-1 px-1 text-[10px] font-semibold ${
+              activeTab === 'dashboard' ? 'text-indigo-600' : 'text-slate-500'
+            }`}
+          >
+            <PiggyBank className="h-5 w-5 shrink-0" />
+            <span className="truncate">Lương ròng</span>
+          </button>
+          <button
+            type="button"
+            onClick={onOpenSalarySlip}
+            className="flex min-h-16 min-w-0 flex-1 flex-col items-center justify-center gap-1 px-1 text-[10px] font-semibold text-slate-500"
+          >
+            <FileText className="h-5 w-5 shrink-0 text-indigo-500" />
+            <span className="truncate">Phiếu lương</span>
+          </button>
+          <button
+            type="button"
+            onClick={onOpenSettings}
+            className="flex min-h-16 min-w-0 flex-1 flex-col items-center justify-center gap-1 px-1 text-[10px] font-semibold text-slate-500"
+          >
+            <SettingsIcon className="h-5 w-5 shrink-0" />
+            <span className="truncate">Cài đặt</span>
+          </button>
+        </div>
+      </nav>
+    </>
   );
 };

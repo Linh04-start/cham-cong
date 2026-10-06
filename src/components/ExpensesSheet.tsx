@@ -416,21 +416,24 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
       <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200 p-4 bg-slate-50/70">
-          <div className="flex items-center gap-3">
-            <h3 className="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+          <div className="flex min-w-0 items-center gap-3">
+            <h3 className="flex min-w-0 items-center gap-2 text-sm font-bold text-slate-900 sm:text-base">
               <span>Sổ Chi Tiêu Đi Làm</span>
               <span className="rounded-full bg-slate-200 px-2 py-0.5 text-xs font-semibold text-slate-700">
                 {filteredExpenses.length} khoản
               </span>
             </h3>
+            <span className="ml-auto shrink-0 text-xs font-extrabold text-rose-600 sm:text-sm">
+              -{formatVND(filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0))}
+            </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:flex-wrap">
             {/* Filter by Category */}
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="rounded-xl border border-slate-300 bg-white py-1.5 px-3 text-xs font-semibold text-slate-700 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer"
+              className="min-h-10 min-w-0 flex-1 rounded-xl border border-slate-300 bg-white px-2 py-1.5 text-xs font-semibold text-slate-700 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 sm:flex-none sm:px-3"
             >
               <option value="all">Tất cả danh mục</option>
               {(Object.keys(CATEGORY_CONFIG) as ExpenseCategory[]).map((catKey) => (
@@ -441,14 +444,14 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
             </select>
 
             {/* Search */}
-            <div className="relative">
+            <div className="relative min-w-0 flex-1 sm:flex-none">
               <Search className="pointer-events-none absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400" />
               <input
                 type="text"
                 placeholder="Tìm ngày, ghi chú..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-40 sm:w-48 rounded-xl border border-slate-300 py-1.5 pl-8 pr-3 text-xs focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 bg-white"
+                className="min-h-10 w-full rounded-xl border border-slate-300 bg-white py-1.5 pl-8 pr-2 text-xs focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 sm:w-48 sm:pr-3"
               />
             </div>
 
@@ -457,16 +460,159 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
               type="button"
               onClick={() => setSortAsc(!sortAsc)}
               title={sortAsc ? 'Cũ nhất trước' : 'Mới nhất trước'}
-              className="flex items-center gap-1 rounded-xl border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+              className="flex min-h-10 shrink-0 items-center gap-1 rounded-xl border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50"
             >
               <ArrowUpDown className="h-3.5 w-3.5 text-slate-500" />
-              <span>{sortAsc ? 'Cũ nhất' : 'Mới nhất'}</span>
+              <span className="hidden sm:inline">{sortAsc ? 'Cũ nhất' : 'Mới nhất'}</span>
             </button>
           </div>
         </div>
 
-        {/* Bảng chi tiêu */}
-        <div className="overflow-x-auto">
+        <div className="divide-y divide-slate-100 md:hidden">
+          {filteredExpenses.length === 0 ? (
+            <p className="px-4 py-10 text-center text-sm text-slate-400">
+              Chưa có khoản chi nào trong mục này. Bấm nút phía trên để ghi lại!
+            </p>
+          ) : (
+            filteredExpenses.map((exp) => {
+              const isEditing = editingId === exp.id;
+              const cfg = CATEGORY_CONFIG[exp.category] || CATEGORY_CONFIG.other;
+              const dayOfWeek = getDayOfWeekShort(exp.date);
+
+              return (
+                <article key={exp.id} className="p-3.5">
+                  {isEditing ? (
+                    <div className="-m-3.5 space-y-3 bg-amber-50/70 p-3.5">
+                      <label className="block">
+                        <span className="sr-only">Ngày chi</span>
+                        <input
+                          aria-label="Ngày chi"
+                          type="date"
+                          value={editForm.date || ''}
+                          onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
+                          className="min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm"
+                        />
+                      </label>
+                      <label className="block">
+                        <span className="sr-only">Danh mục chi</span>
+                        <select
+                          aria-label="Danh mục chi"
+                          value={editForm.category || 'other'}
+                          onChange={(e) =>
+                            setEditForm({ ...editForm, category: e.target.value as ExpenseCategory })
+                          }
+                          className="min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm"
+                        >
+                          {(Object.keys(CATEGORY_CONFIG) as ExpenseCategory[]).map((catKey) => (
+                            <option key={catKey} value={catKey}>
+                              {CATEGORY_CONFIG[catKey].icon} {CATEGORY_CONFIG[catKey].label}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label className="block">
+                        <span className="sr-only">Số tiền</span>
+                        <input
+                          aria-label="Số tiền"
+                          type="number"
+                          inputMode="numeric"
+                          value={editForm.amount ?? ''}
+                          onChange={(e) =>
+                            setEditForm({ ...editForm, amount: parseInt(e.target.value, 10) || 0 })
+                          }
+                          className="min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm font-bold text-rose-600"
+                        />
+                      </label>
+                      <label className="block">
+                        <span className="sr-only">Ghi chú</span>
+                        <input
+                          aria-label="Ghi chú"
+                          type="text"
+                          placeholder="Ghi chú cụ thể"
+                          value={editForm.note || ''}
+                          onChange={(e) => setEditForm({ ...editForm, note: e.target.value })}
+                          className="min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm"
+                        />
+                      </label>
+                      <div className="flex justify-end gap-2 pt-1">
+                        <button
+                          type="button"
+                          onClick={cancelEdit}
+                          className="min-h-10 rounded-lg px-3 text-xs font-semibold text-slate-500"
+                        >
+                          Hủy
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => saveEdit(exp.id)}
+                          className="min-h-10 rounded-lg bg-amber-500 px-4 text-xs font-bold text-white"
+                        >
+                          Lưu
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xl">
+                          {cfg.icon}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-baseline gap-x-1.5">
+                            <span className="text-xs font-bold text-slate-800">{cfg.label}</span>
+                            <span className="text-[10px] text-slate-400">
+                              · {dayOfWeek}, {formatDayMonth(exp.date)}
+                            </span>
+                          </div>
+                          <p className="mt-1 break-words text-xs italic text-slate-400">
+                            {exp.note || 'Không có ghi chú'}
+                          </p>
+                        </div>
+                        <span className="shrink-0 text-sm font-extrabold text-rose-600">
+                          -{formatVND(exp.amount)}
+                        </span>
+                      </div>
+                      <div className="mt-2 flex justify-end gap-1">
+                        <button
+                          type="button"
+                          onClick={() => startEdit(exp)}
+                          aria-label="Sửa khoản chi"
+                          className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600"
+                        >
+                          <Edit2 className="h-4 w-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (window.confirm('Bạn có chắc muốn xóa khoản chi này không?')) {
+                              onDeleteExpense(exp.id);
+                            }
+                          }}
+                          aria-label="Xóa khoản chi"
+                          className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 text-rose-600"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </article>
+              );
+            })
+          )}
+        </div>
+
+        {filteredExpenses.length > 0 && (
+          <div className="flex items-center justify-between gap-3 border-t border-slate-200 bg-slate-50 px-4 py-3 text-xs font-bold md:hidden">
+            <span className="text-slate-600">Tổng chi tiêu:</span>
+            <span className="shrink-0 text-rose-600">
+              -{formatVND(filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0))}
+            </span>
+          </div>
+        )}
+
+        {/* Bảng chi tiêu trên màn hình lớn */}
+        <div className="hidden overflow-x-auto md:block">
           <table className="w-full text-left text-xs">
             <thead className="border-b border-slate-200 bg-slate-100/70 text-[11px] font-bold text-slate-600 uppercase tracking-wider">
               <tr>
