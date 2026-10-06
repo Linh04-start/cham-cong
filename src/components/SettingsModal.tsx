@@ -42,26 +42,26 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/50 p-2 backdrop-blur-xs sm:items-center sm:p-4">
       <div
         id="settings-modal"
-        className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden"
+        className="my-auto max-h-[calc(100dvh-1rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-xl"
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/80">
-          <div className="flex items-center gap-2 text-slate-800 font-bold text-base sm:text-lg">
+        <div className="flex items-center justify-between gap-2 border-b border-slate-100 bg-slate-50/80 px-4 py-4 sm:px-6">
+          <div className="flex min-w-0 items-center gap-2 text-base font-bold text-slate-800 sm:text-lg">
             <Settings className="w-5 h-5 text-emerald-600" />
-            <span>Cài đặt sổ cá nhân của bạn</span>
+            <span className="break-words">Cài đặt sổ cá nhân của bạn</span>
           </div>
           <button
             id="close-settings-btn"
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-200/60 transition-colors"
+            className="flex min-h-10 min-w-10 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-200/60 hover:text-slate-600"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 p-4 sm:p-6">
           {/* Tên hiển thị */}
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1 flex items-center gap-1.5">
@@ -72,7 +72,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 text-slate-800 text-xs font-medium"
+              className="min-h-11 w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-medium text-slate-800 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 sm:text-xs"
               placeholder="VD: Hùng, Minh Anh..."
             />
             {currentUser?.email && (
@@ -85,11 +85,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {/* Lương theo giờ */}
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
+              <span className="flex min-w-0 items-center gap-1.5">
                 <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
                 Mức lương cơ bản / giờ (VNĐ)
               </span>
-              <span className="text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold">
+              <span className="shrink-0 rounded bg-emerald-50 px-2 py-0.5 font-mono text-[11px] font-bold text-emerald-700">
                 {formatVND(parseInt(hourlyRate, 10) || 0)}/h
               </span>
             </label>
@@ -98,7 +98,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               step="1000"
               value={hourlyRate}
               onChange={(e) => setHourlyRate(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 text-slate-800 text-xs font-medium"
+              className="min-h-11 w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-medium text-slate-800 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 sm:text-xs"
               placeholder="VD: 30000"
               required
             />
@@ -110,11 +110,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {/* Mục tiêu tháng */}
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
+              <span className="flex min-w-0 items-center gap-1.5">
                 <Target className="w-3.5 h-3.5 text-amber-500" />
                 Mục tiêu thu nhập tháng (VNĐ)
               </span>
-              <span className="text-[11px] font-mono text-amber-700 bg-amber-50 px-2 py-0.5 rounded font-bold">
+              <span className="shrink-0 rounded bg-amber-50 px-2 py-0.5 font-mono text-[11px] font-bold text-amber-700">
                 {formatVND(parseInt(target, 10) || 0)}
               </span>
             </label>
@@ -123,7 +123,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               step="100000"
               value={target}
               onChange={(e) => setTarget(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 text-slate-800 text-xs font-medium"
+              className="min-h-11 w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-medium text-slate-800 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 sm:text-xs"
               placeholder="VD: 5000000"
               required
             />
@@ -132,11 +132,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {/* Giá 1 ly cà phê */}
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
+              <span className="flex min-w-0 items-center gap-1.5">
                 <Coffee className="w-3.5 h-3.5 text-amber-600" />
                 Giá 1 ly cà phê (Quy đổi vui)
               </span>
-              <span className="text-[11px] font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded font-bold">
+              <span className="shrink-0 rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-bold text-slate-600">
                 {formatVND(parseInt(coffee, 10) || 0)}/ly
               </span>
             </label>
@@ -145,36 +145,36 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               step="1000"
               value={coffee}
               onChange={(e) => setCoffee(e.target.value)}
-              className="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 text-slate-800 text-xs font-medium"
+              className="min-h-11 w-full rounded-xl border border-slate-300 px-3.5 py-2 text-sm font-medium text-slate-800 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 sm:text-xs"
               placeholder="VD: 30000"
               required
             />
           </div>
 
-          <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
+          <div className="flex flex-col gap-3 border-t border-slate-100 pt-3 sm:flex-row sm:items-center sm:justify-between">
             <button
               type="button"
               onClick={() => {
                 onClose();
                 onLogout();
               }}
-              className="flex items-center gap-1.5 text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 px-3 py-2 rounded-xl transition-colors"
+              className="flex min-h-10 items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold text-rose-600 transition-colors hover:bg-rose-50 hover:text-rose-700"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Đăng xuất</span>
             </button>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-end gap-2">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+                className="min-h-10 px-4 py-2 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-100"
               >
                 Hủy
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-colors shadow-sm"
+                className="min-h-10 rounded-xl bg-emerald-600 px-5 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-emerald-700"
               >
                 Lưu cài đặt
               </button>

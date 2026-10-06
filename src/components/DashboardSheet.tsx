@@ -74,21 +74,21 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="min-w-0 space-y-6">
       {/* 1. MỤC TIÊU THU NHẬP THÁNG */}
       <div className="relative overflow-hidden rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-600 via-teal-600 to-emerald-800 p-6 sm:p-8 text-white shadow-lg shadow-emerald-900/10">
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div className="space-y-2 max-w-xl">
+        <div className="relative z-10 flex min-w-0 flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="min-w-0 max-w-xl space-y-2">
             <div className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold backdrop-blur-md">
               <Target className="h-3.5 w-3.5 text-emerald-200" />
               <span>Mục Tiêu Thu Nhập Tháng Này</span>
             </div>
 
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl sm:text-4xl font-black tracking-tight">
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="break-words text-2xl font-black tracking-tight sm:text-4xl">
                 {formatVND(stats.totalEarnings)}
               </span>
-              <span className="text-emerald-200 text-sm font-semibold">
+              <span className="break-words text-sm font-semibold text-emerald-200">
                 / {formatVND(targetProgress.targetAmount)}
               </span>
             </div>
@@ -134,9 +134,9 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
       </div>
 
       {/* 2. BỘ CARD CHỈ SỐ TÀI CHÍNH CÁ NHÂN */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 min-[390px]:grid-cols-2 lg:grid-cols-4">
         {/* Card 1: Tổng thu nhập */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Tổng tiền kiếm được
@@ -145,7 +145,7 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
               <DollarSign className="h-5 w-5" />
             </div>
           </div>
-          <div className="mt-2 text-2xl font-extrabold text-slate-900 tracking-tight">
+          <div className="mt-2 break-words text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
             {formatVND(stats.totalEarnings)}
           </div>
           <div className="mt-1 text-xs text-slate-500 flex items-center gap-1">
@@ -154,7 +154,7 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
         </div>
 
         {/* Card 2: Chi tiêu đi làm */}
-        <div className="rounded-2xl border border-rose-200 bg-rose-50/50 p-5 shadow-sm">
+        <div className="min-w-0 rounded-2xl border border-rose-200 bg-rose-50/50 p-4 shadow-sm sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-rose-700 uppercase tracking-wider">
               Chi tiêu đi làm
@@ -163,7 +163,7 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
               <TrendingDown className="h-5 w-5" />
             </div>
           </div>
-          <div className="mt-2 text-2xl font-extrabold text-rose-700 tracking-tight">
+          <div className="mt-2 break-words text-xl font-extrabold tracking-tight text-rose-700 sm:text-2xl">
             -{formatVND(stats.totalExpenses)}
           </div>
           <div className="mt-1 text-xs text-rose-600 font-medium">
@@ -172,7 +172,7 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
         </div>
 
         {/* Card 3: Tiền thực nhận (Lương ròng / Bỏ ống heo) */}
-        <div className="rounded-2xl border border-emerald-300 bg-gradient-to-br from-emerald-50 to-teal-50 p-5 shadow-sm ring-1 ring-emerald-200">
+        <div className="min-w-0 rounded-2xl border border-emerald-300 bg-gradient-to-br from-emerald-50 to-teal-50 p-4 shadow-sm ring-1 ring-emerald-200 sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider">
               Tiền Bỏ Ống Heo (Lương Ròng)
@@ -181,7 +181,7 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
               <PiggyBank className="h-5 w-5" />
             </div>
           </div>
-          <div className="mt-2 text-2xl font-black text-emerald-900 tracking-tight">
+          <div className="mt-2 break-words text-xl font-black tracking-tight text-emerald-900 sm:text-2xl">
             {formatVND(stats.netEarnings)}
           </div>
           <div className="mt-1 text-xs text-emerald-700 font-semibold">
@@ -190,7 +190,7 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
         </div>
 
         {/* Card 4: Tổng giờ làm việc */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Tổng giờ làm việc
@@ -199,7 +199,7 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
               <Clock className="h-5 w-5" />
             </div>
           </div>
-          <div className="mt-2 text-2xl font-extrabold text-slate-900 tracking-tight">
+          <div className="mt-2 break-words text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
             {formatHours(stats.totalHours)}
           </div>
           <div className="mt-1 text-xs text-slate-500">
@@ -211,7 +211,7 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
       {/* 3. CHI TIẾT DANH MỤC CHI TIÊU & BIỂU ĐỒ HOẠT ĐỘNG */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Cột trái: Phân bổ các khoản chi tiêu đi làm */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5 space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
               <Wallet className="h-4 w-4 text-amber-500" />
@@ -266,7 +266,7 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
         </div>
 
         {/* Cột phải (2 cột): Biểu đồ ngày & tuần */}
-        <div className="lg:col-span-2 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col justify-between">
+        <div className="min-w-0 lg:col-span-2 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm flex flex-col justify-between sm:p-5">
           <div>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
               <div>
@@ -342,7 +342,7 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
             </div>
           </div>
 
-          <div className="mt-3 flex items-center justify-center gap-6 text-xs text-slate-500 border-t border-slate-100 pt-3">
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-slate-100 pt-3 text-xs text-slate-500">
             <span className="flex items-center gap-1.5">
               <span className="h-3 w-3 rounded-full bg-emerald-500 inline-block" />
               <span>Tiền lương kiếm được</span>
@@ -356,13 +356,13 @@ export const DashboardSheet: React.FC<DashboardSheetProps> = ({
       </div>
 
       {/* 4. BẢNG THÀNH TÍCH VUI VẺ & GHI NHẬN NỖ LỰC 😂 */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5 space-y-4">
         <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
           <Award className="h-5 w-5 text-amber-500" />
           <span>Bảng Thành Tích & Cày Cuốc Vui Vẻ</span>
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 min-[390px]:grid-cols-2 lg:grid-cols-4">
           {/* Huy hiệu 1: Chuỗi cày cuốc */}
           <div className="rounded-xl border border-orange-200 bg-gradient-to-br from-orange-50 to-amber-50 p-4">
             <div className="flex items-center gap-2 text-orange-800 font-bold text-xs uppercase">

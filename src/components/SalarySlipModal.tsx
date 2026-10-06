@@ -36,19 +36,19 @@ export const SalarySlipModal: React.FC<SalarySlipModalProps> = ({
   const userName = currentUser?.name || 'Tài khoản của tôi';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
-      <div className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/60 p-2 backdrop-blur-xs sm:items-center sm:p-4">
+      <div className="my-auto flex max-h-[calc(100dvh-1rem)] w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
         {/* Modal Top Bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50 print:hidden">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-bold text-slate-900">
+        <div className="flex flex-col gap-3 border-b border-slate-100 bg-slate-50 px-4 py-4 print:hidden sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="text-sm font-bold text-slate-900 break-words">
               📄 Phiếu Báo Lương & Đối Chiếu Chi Tiêu Đi Làm
             </span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center justify-end gap-2">
             <button
               onClick={handlePrint}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors shadow-2xs"
+              className="flex min-h-10 items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 shadow-2xs transition-colors hover:bg-slate-100"
             >
               <Printer className="w-3.5 h-3.5 text-slate-600" />
               In phiếu / Lưu PDF
@@ -63,11 +63,11 @@ export const SalarySlipModal: React.FC<SalarySlipModalProps> = ({
         </div>
 
         {/* Printable Sheet */}
-        <div className="overflow-y-auto p-8 space-y-6 text-slate-800 font-sans" id="salary-slip-content">
+        <div className="min-w-0 space-y-6 overflow-y-auto p-4 font-sans text-slate-800 sm:p-8" id="salary-slip-content">
           {/* Header */}
-          <div className="flex items-start justify-between border-b-2 border-slate-900 pb-5">
-            <div>
-              <h2 className="text-xl font-black uppercase tracking-wider text-slate-900">
+          <div className="flex flex-col gap-3 border-b-2 border-slate-900 pb-5 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
+              <h2 className="break-words text-lg font-black uppercase tracking-wider text-slate-900 sm:text-xl">
                 PHIẾU BÁO LƯƠNG & CHI TIÊU CÁ NHÂN
               </h2>
               <p className="text-xs text-slate-500 mt-1">
@@ -77,7 +77,7 @@ export const SalarySlipModal: React.FC<SalarySlipModalProps> = ({
                 Ngày xuất phiếu: {formatFullDate(new Date().toISOString().split('T')[0])}
               </p>
             </div>
-            <div className="text-right">
+            <div className="min-w-0 text-left sm:text-right">
               <span className="text-xs font-bold uppercase text-slate-400">Chủ tài khoản</span>
               <div className="text-base font-black text-slate-900">{userName}</div>
               {currentUser?.email && (
@@ -87,12 +87,12 @@ export const SalarySlipModal: React.FC<SalarySlipModalProps> = ({
           </div>
 
           {/* Key Summary Cards */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl">
+          <div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 lg:grid-cols-3">
+            <div className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                 1. Tổng Tiền Lương (Gross)
               </span>
-              <div className="text-lg font-black text-slate-900 mt-1">
+              <div className="mt-1 break-words text-lg font-black text-slate-900">
                 {formatVND(stats.totalEarnings)}
               </div>
               <span className="text-[11px] text-slate-500">
@@ -100,12 +100,12 @@ export const SalarySlipModal: React.FC<SalarySlipModalProps> = ({
               </span>
             </div>
 
-            <div className="bg-rose-50 border border-rose-200 p-4 rounded-2xl">
+            <div className="min-w-0 rounded-2xl border border-rose-200 bg-rose-50 p-4">
               <span className="text-[10px] font-bold uppercase tracking-wider text-rose-600 flex items-center gap-1">
                 <TrendingDown className="w-3 h-3" />
                 2. Chi Tiêu Đi Làm
               </span>
-              <div className="text-lg font-black text-rose-700 mt-1">
+              <div className="mt-1 break-words text-lg font-black text-rose-700">
                 -{formatVND(stats.totalExpenses)}
               </div>
               <span className="text-[11px] text-rose-600 font-medium">
@@ -113,12 +113,12 @@ export const SalarySlipModal: React.FC<SalarySlipModalProps> = ({
               </span>
             </div>
 
-            <div className="bg-emerald-50 border-2 border-emerald-500 p-4 rounded-2xl">
+            <div className="min-w-0 rounded-2xl border-2 border-emerald-500 bg-emerald-50 p-4">
               <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1">
                 <PiggyBank className="w-3 h-3" />
                 3. Tiền Thực Cầm Về (Net)
               </span>
-              <div className="text-xl font-black text-emerald-900 mt-1">
+              <div className="mt-1 break-words text-xl font-black text-emerald-900">
                 {formatVND(stats.netEarnings)}
               </div>
               <span className="text-[11px] text-emerald-700 font-semibold">
@@ -133,7 +133,7 @@ export const SalarySlipModal: React.FC<SalarySlipModalProps> = ({
               <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider border-b border-slate-200 pb-1">
                 Khoản Chi Cá Nhân Lúc Đi Làm Trong Tháng ({expenses.length} khoản):
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {(Object.keys(CATEGORY_CONFIG) as Array<keyof typeof CATEGORY_CONFIG>).map((cat) => {
                   const amt = stats.expensesByCategory[cat] || 0;
                   if (amt === 0) return null;
@@ -153,8 +153,8 @@ export const SalarySlipModal: React.FC<SalarySlipModalProps> = ({
             <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider border-b border-slate-200 pb-1">
               Chi Tiết Ca Làm Việc ({entries.length} ca):
             </h3>
-            <div className="border border-slate-200 rounded-xl overflow-hidden">
-              <table className="w-full text-left text-xs">
+            <div className="overflow-x-auto rounded-xl border border-slate-200">
+              <table className="w-full min-w-[600px] text-left text-xs">
                 <thead className="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
                   <tr>
                     <th className="py-2 px-3">Ngày</th>

@@ -185,11 +185,11 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
     });
 
   return (
-    <div className="space-y-6">
+    <div className="min-w-0 space-y-6">
       {/* BANNER THỐNG KÊ CHI TIÊU NHANH */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 min-[390px]:grid-cols-2 lg:grid-cols-4">
         {/* Card 1: Tổng chi tiêu */}
-        <div className="rounded-2xl border border-rose-200 bg-gradient-to-br from-rose-50 to-pink-50 p-5 shadow-sm">
+        <div className="min-w-0 rounded-2xl border border-rose-200 bg-gradient-to-br from-rose-50 to-pink-50 p-4 shadow-sm sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-rose-700 uppercase tracking-wider">
               Tổng chi tiêu đi làm
@@ -198,7 +198,7 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
               <TrendingDown className="h-5 w-5" />
             </div>
           </div>
-          <div className="mt-2 text-2xl font-black text-rose-900 tracking-tight">
+          <div className="mt-2 break-words text-xl font-black tracking-tight text-rose-900 sm:text-2xl">
             {formatVND(totalExpenseAmount)}
           </div>
           <div className="mt-1 flex items-center gap-1.5 text-xs text-rose-700">
@@ -207,7 +207,7 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
         </div>
 
         {/* Card 2: Tiền thực nhận còn lại */}
-        <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-50 p-5 shadow-sm">
+        <div className="min-w-0 rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-50 p-4 shadow-sm sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">
               Tiền Bỏ Ống Heo (Lương Ròng)
@@ -216,7 +216,7 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
               <PiggyBank className="h-5 w-5" />
             </div>
           </div>
-          <div className="mt-2 text-2xl font-black text-emerald-900 tracking-tight">
+          <div className="mt-2 break-words text-xl font-black tracking-tight text-emerald-900 sm:text-2xl">
             {formatVND(netTakeHome)}
           </div>
           <div className="mt-1 text-xs text-emerald-700">
@@ -225,14 +225,14 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
         </div>
 
         {/* Card 3: Chi Trà sữa & Cà phê */}
-        <div className="rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-yellow-50 p-5 shadow-sm">
+        <div className="min-w-0 rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-yellow-50 p-4 shadow-sm sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-amber-800 uppercase tracking-wider">
               Trà Sữa & Cà Phê 🧋
             </span>
             <span className="text-xl">☕</span>
           </div>
-          <div className="mt-2 text-2xl font-black text-amber-950 tracking-tight">
+          <div className="mt-2 break-words text-xl font-black tracking-tight text-amber-950 sm:text-2xl">
             {formatVND(
               expenses
                 .filter((e) => e.category === 'milktea' || e.category === 'coffee')
@@ -245,7 +245,7 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
         </div>
 
         {/* Card 4: Chi Xăng xe & Đi lại */}
-        <div className="rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-sky-50 p-5 shadow-sm">
+        <div className="min-w-0 rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-sky-50 p-4 shadow-sm sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">
               Xăng Xe & Gửi Xe ⛽
@@ -254,7 +254,7 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
               <Fuel className="h-5 w-5" />
             </div>
           </div>
-          <div className="mt-2 text-2xl font-black text-blue-950 tracking-tight">
+          <div className="mt-2 break-words text-xl font-black tracking-tight text-blue-950 sm:text-2xl">
             {formatVND(
               expenses
                 .filter((e) => e.category === 'gas' || e.category === 'parking')
@@ -268,7 +268,7 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
       </div>
 
       {/* KHỐI FORM NHẬP CHI TIÊU CÁ NHÂN */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4">
           <div>
             <h2 className="flex items-center gap-2 text-base sm:text-lg font-bold text-slate-900">
@@ -288,28 +288,28 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
             <button
               type="button"
               onClick={() => applyQuickPreset('milktea', 35000, 'Trà sữa trân châu')}
-              className="rounded-lg bg-pink-50 px-2 py-1 text-xs font-semibold text-pink-700 hover:bg-pink-100 transition-colors"
+              className="min-h-9 rounded-lg bg-pink-50 px-2 py-1 text-xs font-semibold text-pink-700 transition-colors hover:bg-pink-100 sm:min-h-0"
             >
               🧋 35k Trà sữa
             </button>
             <button
               type="button"
               onClick={() => applyQuickPreset('food', 40000, 'Cơm trưa')}
-              className="rounded-lg bg-orange-50 px-2 py-1 text-xs font-semibold text-orange-700 hover:bg-orange-100 transition-colors"
+              className="min-h-9 rounded-lg bg-orange-50 px-2 py-1 text-xs font-semibold text-orange-700 transition-colors hover:bg-orange-100 sm:min-h-0"
             >
               🍔 40k Cơm trưa
             </button>
             <button
               type="button"
               onClick={() => applyQuickPreset('gas', 50000, 'Đổ xăng')}
-              className="rounded-lg bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-700 hover:bg-blue-100 transition-colors"
+              className="min-h-9 rounded-lg bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-700 transition-colors hover:bg-blue-100 sm:min-h-0"
             >
               ⛽ 50k Đổ xăng
             </button>
             <button
               type="button"
               onClick={() => applyQuickPreset('coffee', 25000, 'Cà phê sáng')}
-              className="rounded-lg bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800 hover:bg-amber-100 transition-colors"
+              className="min-h-9 rounded-lg bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800 transition-colors hover:bg-amber-100 sm:min-h-0"
             >
               ☕ 25k Cà phê
             </button>
@@ -330,7 +330,7 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 py-2 px-3 text-xs font-medium focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+                className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 sm:text-xs"
               />
             </div>
 
@@ -339,7 +339,7 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
               <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Danh mục chi tiêu
               </label>
-              <div className="grid grid-cols-4 sm:grid-cols-7 gap-1">
+              <div className="grid grid-cols-3 gap-1 min-[390px]:grid-cols-4 sm:grid-cols-7">
                 {(Object.keys(CATEGORY_CONFIG) as ExpenseCategory[]).map((catKey) => {
                   const cfg = CATEGORY_CONFIG[catKey];
                   const isSelected = category === catKey;
@@ -348,7 +348,7 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
                       key={catKey}
                       type="button"
                       onClick={() => setCategory(catKey)}
-                      className={`flex flex-col items-center justify-center rounded-xl p-1.5 text-center transition-all ${
+                      className={`flex min-h-11 min-w-0 flex-col items-center justify-center rounded-xl p-1.5 text-center transition-all ${
                         isSelected
                           ? 'border-2 border-amber-500 bg-amber-50 shadow-xs'
                           : 'border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600'
@@ -376,7 +376,7 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="VD: 35000"
-                className="w-full rounded-xl border border-slate-300 py-2 px-3 text-xs font-bold text-slate-900 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+                className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-bold text-slate-900 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 sm:text-xs"
               />
             </div>
 
@@ -388,14 +388,14 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
                 placeholder="VD: Trà sữa ô long 50% đường, Cơm tấm sườn bì..."
-                className="w-full rounded-xl border border-slate-300 py-2 px-3 text-xs font-medium focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+                className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 sm:text-xs"
               />
             </div>
           </div>
 
           {/* Action Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl bg-amber-50/50 p-3 ring-1 ring-amber-200">
-            <div className="flex items-center gap-2 text-xs text-amber-900 font-medium">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-amber-900">
               <span>Đang chọn: <strong>{CATEGORY_CONFIG[category].icon} {CATEGORY_CONFIG[category].label}</strong></span>
               <span>•</span>
               <span>Số tiền: <strong className="text-sm font-bold text-rose-700">{formatVND(parseInt(amount, 10) || 0)}</strong></span>
@@ -403,7 +403,7 @@ export const ExpensesSheet: React.FC<ExpensesSheetProps> = ({
 
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 px-5 py-2 text-xs font-bold text-white shadow-sm hover:bg-amber-600 transition-colors"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-amber-500 px-5 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-amber-600 sm:text-xs"
             >
               <Plus className="h-4 w-4" />
               <span>Ghi lại khoản chi này</span>

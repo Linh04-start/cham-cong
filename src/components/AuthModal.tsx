@@ -127,10 +127,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 p-4 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-200">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/70 p-2 backdrop-blur-sm animate-in fade-in duration-200 sm:items-center sm:p-4">
+      <div className="relative my-auto w-full max-w-md overflow-y-auto rounded-3xl bg-white shadow-2xl ring-1 ring-slate-200 max-h-[calc(100dvh-1rem)]">
         {/* Header Banner */}
-        <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 px-6 py-6 text-white text-center relative">
+        <div className="relative bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 px-4 py-5 text-center text-white sm:px-6 sm:py-6">
           <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-md shadow-inner">
             <Wallet className="h-7 w-7 text-white" />
           </div>
@@ -184,7 +184,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         </div>
 
         {/* Form Body */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {errorMsg && (
             <div className="mb-4 flex items-start gap-2.5 rounded-xl bg-rose-50 p-3 text-xs text-rose-700 ring-1 ring-rose-200">
               <AlertCircle className="h-4 w-4 shrink-0 text-rose-500 mt-0.5" />

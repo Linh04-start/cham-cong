@@ -157,9 +157,9 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
   const totalFilteredPay = filteredEntries.reduce((acc, curr) => acc + (curr.totalPay || 0), 0);
 
   return (
-    <div className="space-y-6">
+    <div className="min-w-0 space-y-6">
       {/* KHỐI NHẬP CA LÀM VIỆC CÁ NHÂN */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4">
           <div>
             <h2 className="flex items-center gap-2 text-base sm:text-lg font-bold text-slate-900">
@@ -179,28 +179,28 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
             <button
               type="button"
               onClick={() => applyTemplate('08:00', '12:00', '0', 'Ca Sáng')}
-              className="rounded-lg bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-700 hover:bg-emerald-100 transition-colors"
+              className="min-h-9 rounded-lg bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-700 transition-colors hover:bg-emerald-100 sm:min-h-0"
             >
               ☀️ Sáng (8-12h)
             </button>
             <button
               type="button"
               onClick={() => applyTemplate('13:00', '17:00', '0', 'Ca Chiều')}
-              className="rounded-lg bg-sky-50 px-2 py-1 text-xs font-semibold text-sky-700 hover:bg-sky-100 transition-colors"
+              className="min-h-9 rounded-lg bg-sky-50 px-2 py-1 text-xs font-semibold text-sky-700 transition-colors hover:bg-sky-100 sm:min-h-0"
             >
               ⛅ Chiều (13-17h)
             </button>
             <button
               type="button"
               onClick={() => applyTemplate('18:00', '22:00', '0', 'Ca Tối')}
-              className="rounded-lg bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-700 hover:bg-indigo-100 transition-colors"
+              className="min-h-9 rounded-lg bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-700 transition-colors hover:bg-indigo-100 sm:min-h-0"
             >
               🌙 Tối (18-22h)
             </button>
             <button
               type="button"
               onClick={() => applyTemplate('08:00', '17:00', '1:00', 'Ca Full 8h')}
-              className="rounded-lg bg-purple-50 px-2 py-1 text-xs font-semibold text-purple-700 hover:bg-purple-100 transition-colors"
+              className="min-h-9 rounded-lg bg-purple-50 px-2 py-1 text-xs font-semibold text-purple-700 transition-colors hover:bg-purple-100 sm:min-h-0"
             >
               ⚡ Full 8h
             </button>
@@ -221,7 +221,7 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 py-2 px-3 text-xs font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 sm:text-xs"
               />
             </div>
 
@@ -235,7 +235,7 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
                 type="time"
                 value={timeIn}
                 onChange={(e) => setTimeIn(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 py-2 px-3 text-xs font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 sm:text-xs"
               />
             </div>
 
@@ -249,7 +249,7 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
                 type="time"
                 value={timeOut}
                 onChange={(e) => setTimeOut(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 py-2 px-3 text-xs font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 sm:text-xs"
               />
             </div>
 
@@ -266,7 +266,7 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
                 placeholder="VD: 1:00, 45p, 30m"
                 value={breakRaw}
                 onChange={(e) => setBreakRaw(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 py-2 px-3 text-xs font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 sm:text-xs"
               />
             </div>
 
@@ -282,7 +282,7 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
                 min="0"
                 value={hourlyRate}
                 onChange={(e) => setHourlyRate(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 py-2 px-3 text-xs font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 sm:text-xs"
               />
             </div>
 
@@ -298,7 +298,7 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
                 placeholder="0"
                 value={bonus}
                 onChange={(e) => setBonus(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 py-2 px-3 text-xs font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 sm:text-xs"
               />
             </div>
 
@@ -310,7 +310,7 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
                 placeholder="VD: Tăng ca, trực kho..."
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 py-2 px-3 text-xs font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="min-h-11 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 sm:text-xs"
               />
             </div>
           </div>
@@ -331,7 +331,7 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
 
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2 text-xs font-bold text-white shadow-sm hover:bg-emerald-700 transition-colors"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-emerald-700 sm:text-xs"
             >
               <Plus className="h-4 w-4" />
               <span>Ghi nhận ca làm</span>
@@ -353,15 +353,15 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
             </h3>
           </div>
 
-          <div className="flex items-center gap-2">
-            <div className="relative">
+          <div className="flex w-full items-center gap-2 sm:w-auto">
+            <div className="relative min-w-0 flex-1 sm:flex-none">
               <Search className="pointer-events-none absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400" />
               <input
                 type="text"
                 placeholder="Tìm ngày, ghi chú..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-44 sm:w-56 rounded-xl border border-slate-300 py-1.5 pl-8 pr-3 text-xs focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 bg-white"
+                className="min-h-10 w-full rounded-xl border border-slate-300 bg-white py-1.5 pl-8 pr-3 text-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 sm:w-56 sm:text-xs"
               />
             </div>
 
@@ -369,7 +369,7 @@ export const TimesheetSheet: React.FC<TimesheetSheetProps> = ({
               type="button"
               onClick={() => setSortAsc(!sortAsc)}
               title={sortAsc ? 'Sắp xếp ngày cũ nhất trước' : 'Sắp xếp ngày mới nhất trước'}
-              className="flex items-center gap-1 rounded-xl border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+              className="flex min-h-10 shrink-0 items-center gap-1 rounded-xl border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50"
             >
               <ArrowUpDown className="h-3.5 w-3.5 text-slate-500" />
               <span>{sortAsc ? 'Cũ nhất' : 'Mới nhất'}</span>
