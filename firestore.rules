@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Connection testing endpoint
+    match /test/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidProfile(data) {
+      return data.id is string && isValidId(data.id) &&
+        (!('name' in data) || (data.name is string && data.name.size() <= 100)) &&
+        (!('email' in data) || (data.email is string && data.email.size() <= 255)) &&
+        (!('pin' in data) || (data.pin is string && data.pin.size() <= 128)) &&
+        (!('defaultHourlyRate' in data) || (data.defaultHourlyRate is number && data.defaultHourlyRate >= 0)) &&
+        (!('monthlyTarget' in data) || (data.monthlyTarget is number && data.monthlyTarget >= 0)) &&
+        (!('coffeePrice' in data) || (data.coffeePrice is number && data.coffeePrice >= 0));
+    }
+
+    function isValidEntry(data) {
+      return data.id is string && isValidId(data.id) &&
+        data.date is string && data.date.size() == 10 && data.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') &&
+        data.workHours is number && data.workHours >= 0 && data.workHours <= 24 &&
+        data.totalPay is number && data.totalPay >= 0 &&
+        (!('hourlyRate' in data) || (data.hourlyRate is number && data.hourlyRate >= 0)) &&
+        (!('bonus' in data) || (data.bonus is number && data.bonus >= 0)) &&
+        (!('timeIn' in data) || (data.timeIn is string && data.timeIn.size() <= 20)) &&
+        (!('timeOut' in data) || (data.timeOut is string && data.timeOut.size() <= 20)) &&
+        (!('breakRaw' in data) || (data.breakRaw is string && data.breakRaw.size() <= 50)) &&
+        (!('breakHours' in data) || (data.breakHours is number && data.breakHours >= 0)) &&
+        (!('note' in data) || (data.note is string && data.note.size() <= 500));
+    }
+
+    function isValidExpense(data) {
+      return data.id is string && isValidId(data.id) &&
+        data.date is string && data.date.size() == 10 && data.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') &&
+        data.amount is number && data.amount > 0 && data.amount <= 1000000000 &&
+        data.category is string &&
+        (data.category == 'milktea' ||
+         data.category == 'coffee' ||
+         data.category == 'food' ||
+         data.category == 'gas' ||
+         data.category == 'parking' ||
+         data.category == 'snack' ||
+         data.category == 'other') &&
+        (!('note' in data) || (data.note is string && data.note.size() <= 300));
+    }
+
+    // User Profile & Settings
+    match /users/{userId} {
+      allow read: if true;
+      allow create, update: if isValidId(userId) && isValidProfile(request.resource.data);
+      allow delete: if isValidId(userId);
+
+      // Subcollection: Personal Timesheet Entries
+      match /entries/{entryId} {
+        allow read: if true;
+        allow create, update: if isValidId(userId) && isValidId(entryId) && isValidEntry(request.resource.data);
+        allow delete: if isValidId(userId) && isValidId(entryId);
+      }
+
+      // Subcollection: Personal Work Expenses
+      match /expenses/{expenseId} {
+        allow read: if true;
+        allow create, update: if isValidId(userId) && isValidId(expenseId) && isValidExpense(request.resource.data);
+        allow delete: if isValidId(userId) && isValidId(expenseId);
+      }
+    }
+  }
+}

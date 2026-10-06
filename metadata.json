@@ -1,0 +1,6 @@
+{
+  "name": "Bảng Chấm Công & Tiền Lương Cá Nhân",
+  "description": "Mini-dashboard chấm công, tính tiền lương cá nhân, theo dõi mục tiêu tháng và bảng thành tích cày cuốc.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

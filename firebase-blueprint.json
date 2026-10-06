@@ -1,0 +1,177 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Hồ sơ và cài đặt cá nhân của người dùng",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID của người dùng",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "description": "Email người dùng",
+          "maxLength": 255
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Tên hiển thị người dùng",
+          "maxLength": 100
+        },
+        "defaultHourlyRate": {
+          "type": "number",
+          "description": "Mức lương giờ mặc định (VNĐ)"
+        },
+        "monthlyTarget": {
+          "type": "number",
+          "description": "Mục tiêu thu nhập tháng (VNĐ)"
+        },
+        "coffeePrice": {
+          "type": "number",
+          "description": "Giá 1 ly cà phê để quy đổi vui (VNĐ)"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Thời điểm tạo tài khoản"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Thời điểm cập nhật gần nhất"
+        }
+      },
+      "required": ["uid"]
+    },
+    "TimesheetEntry": {
+      "title": "TimesheetEntry",
+      "description": "Bản ghi chấm công ca làm việc cá nhân",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID bản ghi chấm công",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "ID chủ sở hữu (Firebase Auth UID)",
+          "maxLength": 128
+        },
+        "date": {
+          "type": "string",
+          "description": "Ngày làm việc (YYYY-MM-DD)",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "timeIn": {
+          "type": "string",
+          "description": "Giờ vào làm (HH:mm)",
+          "maxLength": 20
+        },
+        "timeOut": {
+          "type": "string",
+          "description": "Giờ tan làm (HH:mm)",
+          "maxLength": 20
+        },
+        "breakRaw": {
+          "type": "string",
+          "description": "Chuỗi thời gian nghỉ nhập vào",
+          "maxLength": 50
+        },
+        "breakHours": {
+          "type": "number",
+          "description": "Số giờ nghỉ đã quy đổi (giờ)"
+        },
+        "workHours": {
+          "type": "number",
+          "description": "Số giờ làm việc thực tế (giờ)"
+        },
+        "hourlyRate": {
+          "type": "number",
+          "description": "Mức lương theo giờ (VNĐ)"
+        },
+        "bonus": {
+          "type": "number",
+          "description": "Tiền thưởng / trợ cấp thêm trong ca (VNĐ)"
+        },
+        "totalPay": {
+          "type": "number",
+          "description": "Tổng tiền lương của ca làm (VNĐ)"
+        },
+        "note": {
+          "type": "string",
+          "description": "Ghi chú ca làm việc",
+          "maxLength": 500
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Thời điểm tạo"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Thời điểm cập nhật"
+        }
+      },
+      "required": ["id", "date", "workHours", "totalPay"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Khoản chi tiêu cá nhân trong lúc đi làm (trà sữa, cơm trưa, xăng xe, v.v.)",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID duy nhất của khoản chi",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "ID người dùng sở hữu khoản chi",
+          "maxLength": 128
+        },
+        "date": {
+          "type": "string",
+          "description": "Ngày chi tiêu (YYYY-MM-DD)",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "category": {
+          "type": "string",
+          "description": "Danh mục chi tiêu",
+          "enum": ["milktea", "coffee", "food", "gas", "parking", "snack", "other"]
+        },
+        "amount": {
+          "type": "number",
+          "description": "Số tiền chi tiêu (VNĐ)"
+        },
+        "note": {
+          "type": "string",
+          "description": "Ghi chú chi tiêu",
+          "maxLength": 300
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Thời điểm tạo"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Thời điểm cập nhật"
+        }
+      },
+      "required": ["id", "date", "amount", "category"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Hồ sơ và thông số cài đặt cá nhân của người dùng đã xác thực"
+    },
+    "/users/{userId}/entries/{entryId}": {
+      "schema": "TimesheetEntry",
+      "description": "Danh sách các ca làm việc cá nhân của người dùng"
+    },
+    "/users/{userId}/expenses/{expenseId}": {
+      "schema": "Expense",
+      "description": "Danh sách chi tiêu cá nhân lúc đi làm của người dùng"
+    }
+  }
+}
